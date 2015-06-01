@@ -114,13 +114,13 @@
     
     // day label and month label
     if ([self isToday]) {
-        self.monthLabel.textColor = [UIColor whiteColor];
+        self.monthLabel.textColor = [UIColor blackColor];
         NSDateFormatter *todayFormatter = [[NSDateFormatter alloc] init];
         todayFormatter.dateStyle = NSDateFormatterMediumStyle;
         todayFormatter.timeStyle = NSDateFormatterNoStyle;
         todayFormatter.doesRelativeDateFormatting = YES;
         [self setMonthLabelText:[todayFormatter stringFromDate:[NSDate date]]];
-        self.dayLabel.textColor = [UIColor whiteColor];
+        self.dayLabel.textColor = [UIColor blackColor];
         [self setTodayLabelText:[NSString stringWithFormat:@"%ld", (long)day]];
         self.backgroundCover.isToday = YES;
         self.backgroundCover.fillColor = self.todayBackgroundColor;
