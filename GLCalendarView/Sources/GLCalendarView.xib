@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GLCalendarView">
@@ -34,19 +34,12 @@
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jKE-iR-rqI" userLabel="weekdays">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="28"/>
-                    <color key="backgroundColor" red="0.98431372549999996" green="0.98039215690000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="28" id="HPK-EI-AnG"/>
                     </constraints>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="64" maxX="0.0" maxY="-64"/>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="gl-calendar-shadow.png" translatesAutoresizingMaskIntoConstraints="NO" id="pi1-Sv-lrh">
-                    <rect key="frame" x="0.0" y="28" width="320" height="7"/>
-                    <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.0"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="7" id="IY7-oL-gsS"/>
-                    </constraints>
-                </imageView>
                 <view hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o6e-VN-d86" userLabel="magnify glass">
                     <rect key="frame" x="102" y="247" width="115" height="74"/>
                     <subviews>
@@ -62,7 +55,6 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="pi1-Sv-lrh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6KW-RG-Es2"/>
                 <constraint firstItem="Jy8-ul-cKo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="28" id="D7o-kh-pJc"/>
                 <constraint firstAttribute="bottom" secondItem="Bj7-Yr-WTM" secondAttribute="bottom" id="Gjw-mS-Qd7"/>
                 <constraint firstItem="Bj7-Yr-WTM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JAs-vv-nVz"/>
@@ -70,10 +62,8 @@
                 <constraint firstItem="jKE-iR-rqI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Ncg-Rw-W2a"/>
                 <constraint firstItem="Jy8-ul-cKo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="aC0-oR-Yps"/>
                 <constraint firstAttribute="trailing" secondItem="jKE-iR-rqI" secondAttribute="trailing" id="eDq-ZR-PH0"/>
-                <constraint firstAttribute="trailing" secondItem="pi1-Sv-lrh" secondAttribute="trailing" id="gKP-4U-ICZ"/>
                 <constraint firstAttribute="trailing" secondItem="Bj7-Yr-WTM" secondAttribute="trailing" id="iFZ-wi-xF8"/>
                 <constraint firstAttribute="trailing" secondItem="Jy8-ul-cKo" secondAttribute="trailing" id="qDv-8r-k67"/>
-                <constraint firstItem="pi1-Sv-lrh" firstAttribute="top" secondItem="jKE-iR-rqI" secondAttribute="bottom" id="tly-qA-ZMw"/>
                 <constraint firstItem="jKE-iR-rqI" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xdJ-J2-pMQ"/>
                 <constraint firstItem="Bj7-Yr-WTM" firstAttribute="top" secondItem="Jy8-ul-cKo" secondAttribute="top" id="yPR-1N-oRC"/>
             </constraints>
@@ -82,7 +72,6 @@
     </objects>
     <resources>
         <image name="gl-calendar-magnify-glass.png" width="115" height="74"/>
-        <image name="gl-calendar-shadow.png" width="50" height="7"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

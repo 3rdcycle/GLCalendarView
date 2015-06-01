@@ -24,7 +24,7 @@
         self.layer.borderColor = strokeColor.CGColor;
         self.layer.borderWidth = borderWidth;
         self.layer.cornerRadius = size / 2;
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
         self.layer.masksToBounds = YES;
     }
     return self;
@@ -104,7 +104,7 @@
 - (void)drawRect:(CGRect)rect
 {
     [self drawSelectedCover:rect];
-    [self drawTodayCircle:rect];
+    //[self drawTodayCircle:rect];
 }
 
 - (void)drawSelectedCover:(CGRect)rect
@@ -121,33 +121,37 @@
     
     CGFloat height = rect.size.height;
     CGFloat width = rect.size.width;
-    CGFloat radius = (height - borderWidth * 2 - paddingTop * 2) / 2;
+    CGFloat radius = 4.0; //(height - borderWidth * 2 - paddingTop * 2) / 2;
     
     CGFloat midY = CGRectGetMidY(rect);
     
     UIBezierPath *path = [UIBezierPath bezierPath];
-    if (!self.inEdit && !self.continuousRangeDisplay) {
-        CGRect rect = CGRectMake(borderWidth + paddingLeft, borderWidth + paddingTop, width - borderWidth * 2 - paddingLeft - paddingRight,  height - borderWidth * 2 - paddingTop * 2);
-        if (self.backgroundImage) {
-            [self.backgroundImage drawInRect:rect];
-            return;
-        }
-        path = [UIBezierPath bezierPathWithOvalInRect:rect];
-        [path closePath];
-        [self.fillColor setFill];
-        [path fill];
-        return;
-    }
+//    if (!self.inEdit && !self.continuousRangeDisplay) {
+//        CGRect rect = CGRectMake(borderWidth + paddingLeft, borderWidth + paddingTop, width - borderWidth * 2 - paddingLeft - paddingRight,  height - borderWidth * 2 - paddingTop * 2);
+//        if (self.backgroundImage) {
+//            [self.backgroundImage drawInRect:rect];
+//            return;
+//        }
+//        path = [UIBezierPath bezierPathWithOvalInRect:rect];
+//        [path closePath];
+//        [self.fillColor setFill];
+//        [path fill];
+//        return;
+//    }
     
     if (self.rangePosition == RANGE_POSITION_BEGIN) {
         [path moveToPoint:CGPointMake(radius + borderWidth + paddingLeft, paddingTop + borderWidth)];
-        [path addArcWithCenter:CGPointMake(radius + borderWidth + paddingLeft, midY) radius:radius startAngle: - M_PI / 2 endAngle: M_PI / 2 clockwise:NO];
+        [path addArcWithCenter:CGPointMake(radius + borderWidth + paddingLeft, paddingTop + borderWidth + radius) radius:radius startAngle: - M_PI_2 endAngle: M_PI clockwise:NO];
+        [path addLineToPoint:CGPointMake(borderWidth + paddingLeft, height - borderWidth - paddingTop - radius)];
+        [path addArcWithCenter:CGPointMake(radius + borderWidth + paddingLeft, height - borderWidth - paddingTop - radius) radius:radius startAngle: M_PI endAngle: M_PI_2 clockwise:NO];
         [path addLineToPoint:CGPointMake(width, height - borderWidth - paddingTop)];
         [path addLineToPoint:CGPointMake(width, borderWidth + paddingTop)];
         [path closePath];
     } else if (self.rangePosition == RANGE_POSITION_END) {
         [path moveToPoint:CGPointMake(width - borderWidth - radius - paddingRight, paddingTop + borderWidth)];
-        [path addArcWithCenter:CGPointMake(width - borderWidth - radius - paddingRight, midY) radius:radius startAngle: - M_PI / 2 endAngle: M_PI / 2 clockwise:YES];
+        [path addArcWithCenter:CGPointMake(width - borderWidth - radius - paddingRight, paddingTop + borderWidth + radius) radius:radius startAngle: - M_PI_2 endAngle: 0 clockwise:YES];
+        [path addLineToPoint:CGPointMake(width - borderWidth - paddingRight, height - borderWidth - paddingTop - radius)];
+        [path addArcWithCenter:CGPointMake(width - borderWidth - radius - paddingRight, height - borderWidth - paddingTop - radius) radius:radius startAngle: 0 endAngle: M_PI_2 clockwise:YES];
         [path addLineToPoint:CGPointMake(0, height - borderWidth - paddingTop)];
         [path addLineToPoint:CGPointMake(0, borderWidth + paddingTop)];
         [path closePath];
@@ -158,14 +162,14 @@
         [path addLineToPoint:CGPointMake(0, height - borderWidth - paddingTop)];
         [path closePath];
     } else if (self.rangePosition == RANGE_POSITION_SINGLE) {
-        path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(borderWidth + paddingLeft, borderWidth + paddingTop, width - borderWidth * 2 - paddingLeft - paddingRight,  height - borderWidth * 2 - paddingTop * 2)];
-        [path closePath];
+        CGRect baseRect = CGRectMake(borderWidth + paddingLeft, borderWidth + paddingTop, width - 2 * borderWidth - paddingLeft - paddingRight, height - 2 * borderWidth - 2 * paddingTop);
+        path = [UIBezierPath bezierPathWithRoundedRect:baseRect cornerRadius:radius];
     }
-    if (_inEdit) {
-        path.lineWidth = borderWidth * 2;
-        [self.strokeColor setStroke];
-        [path stroke];
-    }
+//    if (_inEdit) {
+//        path.lineWidth = borderWidth * 2;
+//        [self.strokeColor setStroke];
+//        [path stroke];
+//    }
     [self.fillColor setFill];
     [path fill];
 }

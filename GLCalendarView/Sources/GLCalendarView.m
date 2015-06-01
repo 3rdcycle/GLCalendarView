@@ -276,7 +276,8 @@ static NSString * const CELL_REUSE_IDENTIFIER = @"DayCell";
         [self beginToEditRange:range];
     } else {
         if (self.rangeUnderEdit) {
-            [self finishEditRange:self.rangeUnderEdit continueEditing:NO];
+            // We have one range and never finish editing in Worklog
+            //[self finishEditRange:self.rangeUnderEdit continueEditing:NO];
         } else {
             BOOL canAdd = [self.delegate calenderView:self canAddRangeWithBeginDate:date];
             if (canAdd) {
@@ -369,7 +370,7 @@ static NSString * const CELL_REUSE_IDENTIFIER = @"DayCell";
     if (recognizer == self.dragBeginDateGesture) {
         CGPoint location = [recognizer locationInView:self.collectionView];
         CGRect rectForBeginDate = [self rectForDate:self.rangeUnderEdit.beginDate];
-        rectForBeginDate.origin.x -= self.cellWidth / 2;
+        //rectForBeginDate.origin.x -= self.cellWidth / 2;
         if (CGRectContainsPoint(rectForBeginDate, location)) {
             return YES;
         }
@@ -377,7 +378,7 @@ static NSString * const CELL_REUSE_IDENTIFIER = @"DayCell";
     if (recognizer == self.dragEndDateGesture) {
         CGPoint location = [recognizer locationInView:self.collectionView];
         CGRect rectForEndDate = [self rectForDate:self.rangeUnderEdit.endDate];
-        rectForEndDate.origin.x += self.cellWidth / 2;
+        //rectForEndDate.origin.x += self.cellWidth / 2;
         if (CGRectContainsPoint(rectForEndDate, location)) {
             return YES;
         }
