@@ -179,6 +179,10 @@ static NSString * const CELL_REUSE_IDENTIFIER = @"DayCell";
     [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:animated];
 }
 
+- (void)recomputeLayout {
+    [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
 # pragma mark - getter & setter
 
 - (void)setFirstDate:(NSDate *)firstDate

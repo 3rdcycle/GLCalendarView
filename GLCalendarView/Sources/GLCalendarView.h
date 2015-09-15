@@ -43,4 +43,5 @@
 - (void)forceFinishEdit;
 - (void)beginToEditRange:(GLCalendarDateRange *)range;
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated;
+- (void)recomputeLayout;
 @end
