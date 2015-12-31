@@ -272,30 +272,38 @@ static NSString * const CELL_REUSE_IDENTIFIER = @"DayCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDate *date = [self dateForCellAtIndexPath:indexPath];
+    
+    // We have one range and never finish editing in Worklog
+    if ([date compare:self.rangeUnderEdit.beginDate] == NSOrderedDescending) {
+        [self moveEndDateToDate:date];
+    } else {
+        [self moveBeginDateToDate:date];
+    }
+    
     GLCalendarDateRange *range = [self selectedRangeForDate:date];
     
-    // if click in a range
-    if (range && range.editable) {
-        if (range == self.rangeUnderEdit) {
-            return;
-        }
-        // click a different range
-        if (self.rangeUnderEdit && range != self.rangeUnderEdit) {
-            [self finishEditRange:self.rangeUnderEdit continueEditing:YES];
-        }
-        [self beginToEditRange:range];
-    } else {
-        if (self.rangeUnderEdit) {
-            // We have one range and never finish editing in Worklog
-            //[self finishEditRange:self.rangeUnderEdit continueEditing:NO];
-        } else {
-            BOOL canAdd = [self.delegate calenderView:self canAddRangeWithBeginDate:date];
-            if (canAdd) {
-                GLCalendarDateRange *rangeToAdd = [self.delegate calenderView:self rangeToAddWithBeginDate:date];
-                [self addRange:rangeToAdd];
-            }
-        }
-    }
+//    // if click in a range
+//    if (range && range.editable) {
+//        if (range == self.rangeUnderEdit) {
+//            return;
+//        }
+//        // click a different range
+//        if (self.rangeUnderEdit && range != self.rangeUnderEdit) {
+//            [self finishEditRange:self.rangeUnderEdit continueEditing:YES];
+//        }
+//        [self beginToEditRange:range];
+//    } else {
+//        if (self.rangeUnderEdit) {
+//            // We have one range and never finish editing in Worklog
+//            //[self finishEditRange:self.rangeUnderEdit continueEditing:NO];
+//        } else {
+//            BOOL canAdd = [self.delegate calenderView:self canAddRangeWithBeginDate:date];
+//            if (canAdd) {
+//                GLCalendarDateRange *rangeToAdd = [self.delegate calenderView:self rangeToAddWithBeginDate:date];
+//                [self addRange:rangeToAdd];
+//            }
+//        }
+//    }
 }
 
 # pragma mark - UICollectionView layout
@@ -427,19 +435,7 @@ static NSString * const CELL_REUSE_IDENTIFIER = @"DayCell";
         return;
     }
     
-    BOOL canUpdate = [self.delegate calenderView:self canUpdateRange:self.rangeUnderEdit toBeginDate:date endDate:self.rangeUnderEdit.endDate];
-    
-    if (canUpdate) {
-        NSDate *originalBeginDate = [self.rangeUnderEdit.beginDate copy];
-        self.rangeUnderEdit.beginDate = date;
-        if ([originalBeginDate compare:date] == NSOrderedAscending) {
-            [self reloadFromBeginDate:originalBeginDate toDate:date];
-        } else {
-            [self reloadFromBeginDate:date toDate:originalBeginDate];
-        }
-        [self showMagnifierAboveDate:self.rangeUnderEdit.beginDate];
-        [self.delegate calenderView:self didUpdateRange:self.rangeUnderEdit toBeginDate:date endDate:self.rangeUnderEdit.endDate];
-    }
+    [self moveBeginDateToDate:date];
 }
 
 - (void)handleDragEndDate:(UIPanGestureRecognizer *)recognizer
@@ -471,6 +467,26 @@ static NSString * const CELL_REUSE_IDENTIFIER = @"DayCell";
         return;
     }
     
+    [self moveEndDateToDate:date];
+}
+
+- (void)moveBeginDateToDate:(NSDate *)date {
+    BOOL canUpdate = [self.delegate calenderView:self canUpdateRange:self.rangeUnderEdit toBeginDate:date endDate:self.rangeUnderEdit.endDate];
+    
+    if (canUpdate) {
+        NSDate *originalBeginDate = [self.rangeUnderEdit.beginDate copy];
+        self.rangeUnderEdit.beginDate = date;
+        if ([originalBeginDate compare:date] == NSOrderedAscending) {
+            [self reloadFromBeginDate:originalBeginDate toDate:date];
+        } else {
+            [self reloadFromBeginDate:date toDate:originalBeginDate];
+        }
+        [self showMagnifierAboveDate:self.rangeUnderEdit.beginDate];
+        [self.delegate calenderView:self didUpdateRange:self.rangeUnderEdit toBeginDate:date endDate:self.rangeUnderEdit.endDate];
+    }
+}
+
+- (void)moveEndDateToDate:(NSDate *)date {
     BOOL canUpdate = [self.delegate calenderView:self canUpdateRange:self.rangeUnderEdit toBeginDate:self.rangeUnderEdit.beginDate endDate:date];
     
     if (canUpdate) {
